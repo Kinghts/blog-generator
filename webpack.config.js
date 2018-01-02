@@ -28,7 +28,7 @@ module.exports = {
     }),
     new MarkdownPlugin({
       source: './markdown',
-      output: './dist/article',
+      output: './article/', // 该路径相对于output.path
       path: './article/' // 前端调用时的路径
     }),
     new webpack.HotModuleReplacementPlugin()

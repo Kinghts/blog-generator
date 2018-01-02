@@ -17,7 +17,7 @@ MarkdownPlugin.prototype.apply = function (compiler, options) {
     compiler.plugin('emit', function (compilation, callback) {
         (async function () {
             if (!await util.fileOrDirExist(_this.options.output)) {
-                await util.createDir(_this.options.output)
+                await util.createDir(_this.options.output, true)
             }
 
             // 读取源markdown文件并创建map
@@ -31,10 +31,9 @@ MarkdownPlugin.prototype.apply = function (compiler, options) {
                 }
                 newestMap[fileName] = new Article(fileName, _this.options.path, _this.options.output, file.content)
             }
-
             //读取旧的map文件
             let oldMap
-            let mapFilePath = path.resolve(_this.options.output, _this.mapFileName)
+            let mapFilePath = path.resolve(compiler.outputPath, _this.options.output, _this.mapFileName)
             if (await util.fileOrDirExist(mapFilePath)) {
                 oldMap = JSON.parse(await util.readFile(mapFilePath))
             }
@@ -44,10 +43,20 @@ MarkdownPlugin.prototype.apply = function (compiler, options) {
 
             //更新文件
             for (let name of updates) {
-                await newestMap[name].writeToFile()
+                // await newestMap[name].writeToFile()
+                let content = newestMap[name].toArticleJSON()
+                compilation.assets[newestMap[name].filePath] = {
+                    source: () => content,
+                    size: () => content.length
+                }
             }
             console.log(_this.logPre + 'update/new ' + updates.length + ' articles')
-            await util.createFile(mapFilePath, JSON.stringify(newestMap))
+            // await util.createFile(mapFilePath, JSON.stringify(newestMap))
+            let mapJSON = JSON.stringify(newestMap)
+            compilation.assets[_this.options.output + _this.mapFileName] = {
+                source: () => mapJSON,
+                size: () => mapJSON.length
+            }
         })().then(() => {
             callback()
         })
