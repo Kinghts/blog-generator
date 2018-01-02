@@ -30,16 +30,34 @@ async function fileOrDirExist (p) {
     })
 }
 
-async function createDir (dir) {
-    return await new Promise((resolve, reject) => {
-        fs.mkdir(dir, (err) => {
-            if (err) {
-                reject(err)
-            } else {
-                resolve()
-            }
+async function createDir (dir, recursion) {
+    async function mkdir(d) {
+        return await new Promise((resolve, reject) => {
+            fs.mkdir(d, (err) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve()
+                }
+            })
         })
-    })
+    }
+    if (recursion) {
+        let s = /\\\\/.test(dir) ? '\\\\' : '/'
+        let paths = []
+        dir.split(s).reduce((total, cur) => {
+            total += s + cur
+            paths.push(total)
+            return total
+        })
+        for (let p of paths) {
+            if (!await fileOrDirExist(p)) {
+                await mkdir(p)
+            }
+        }
+    } else {
+        await mkdir(dir)
+    }
 }
 
 async function createFile (p, data) {
