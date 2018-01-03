@@ -3,8 +3,6 @@ const path = require('path')
 const util = require('./util')
 const diff = require('./diff').diff
 const Article = require('./article')
-const HyperDown = require('hyperdown')
-let parser = new HyperDown
 
 function MarkdownPlugin(options) {
     this.mapFileName = 'map.json'

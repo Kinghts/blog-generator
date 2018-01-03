@@ -1,6 +1,8 @@
 const util = require('./util')
 const fs = require('fs')
 const path = require('path')
+const HyperDown = require('hyperdown')
+let parser = new HyperDown
 
 class Article {
     constructor(name, path, filePath, content) {
@@ -29,7 +31,7 @@ class Article {
             name: this.name,
             createAt: this.createAt,
             updateAt: this.updateAt,
-            content: this.content
+            content: parser.makeHtml(this.content)
         })
     }
     toJSON() { // 这里返回一个对象，以便parse时正确解析
