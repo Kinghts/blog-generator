@@ -27,6 +27,8 @@ class Article {
     toArticleJSON() {
         return JSON.stringify({
             name: this.name,
+            createAt: this.createAt,
+            updateAt: this.updateAt,
             content: this.content
         })
     }
