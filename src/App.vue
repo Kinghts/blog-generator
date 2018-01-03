@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <background></background>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -8,11 +9,6 @@
 import background from './components/background'
 export default {
   name: 'app',
-  data () {
-    return {
-      msg: 'welcome to my blog'
-    }
-  },
   components: {
     background: background
   }
@@ -24,5 +20,8 @@ export default {
   #app {
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>
