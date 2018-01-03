@@ -1,3 +1,14 @@
+<template>
+  <canvas id="bg-canvas"></canvas>
+</template>
+
+<script>
+export default {
+  mounted () {
+    animation()
+  }
+}
+
 class Circle {
     constructor(width, height) {
         let v = Math.random()
@@ -15,14 +26,14 @@ class Circle {
     }
 }
 
-export default function animation() {
-    let canvas = document.getElementById('mainCanvas')
+function animation() {
+    let canvas = document.getElementById('bg-canvas')
     let ctx = canvas.getContext('2d')
     if (!ctx) {
         console.log('你的浏览器不支持canvas')
         return
     }
-    
+
     //解决锯齿问题
     function smooth() {
         let width = canvas.clientWidth, height = canvas.clientHeight
@@ -35,13 +46,13 @@ export default function animation() {
         }
     }
     smooth()
-    
+
     let circles = []
     let maxCount = 8
     for (let i = 0; i < maxCount; i++) {
         circles.push(new Circle(canvas.clientWidth, canvas.clientHeight))
     }
-    
+
     function inBox(c) {
         let s = 25, w = canvas.clientWidth, h = canvas.clientHeight
         if (c.x > -s && c.x < w + s && c.y > -s && c.y < h + s) {
@@ -49,16 +60,16 @@ export default function animation() {
         }
         return false
     }
-    
+
     function render() {
         ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
-    
+
         circles.map((c, i) => {
             if (!inBox(c)) {
                 circles[i] = new Circle(canvas.clientWidth, canvas.clientHeight)
             }
         })
-    
+
         circles.map((c, i) => {
             ctx.beginPath() // 每次单独绘制一个图形时必须得有这个
             ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2, true)
@@ -75,15 +86,25 @@ export default function animation() {
                 ctx.stroke()
             }
         })
-    
+
         window.requestAnimationFrame(render)
     }
-    
+
     render()
-    
+
     window.addEventListener('resize', e => {
         canvas.style.width = document.body.clientWidth + 'px'
         canvas.style.height = document.body.clientHeight + 'px'
         smooth()
-    })    
+    })
 }
+
+</script>
+
+<style scoped>
+  #bg-canvas {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+

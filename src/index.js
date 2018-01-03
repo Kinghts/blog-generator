@@ -1,5 +1,7 @@
-import animation from './background'
-import vue from 'vue'
-import './assets/main.css'
+import Vue from 'vue'
+import App from './App'
 
-animation()
+new Vue({
+  el: '#app',
+  render: h => h(App)
+})

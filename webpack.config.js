@@ -11,7 +11,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(
-      ['dist/*.*'], 
+      ['dist/*.*'],
       {
         exclude: ['/article']
       }
@@ -46,24 +46,32 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
   },
+  resolve: {
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js'
+    },
+    extensions: ['*', '.js', '.vue', '.json']
+  },
+  devtool: '#eval-source-map',
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['babel-preset-env']
-          }
+          loader: 'babel-loader'
         }
       },
       {
         test: /\.css$/, //css的加载，使用ExtractTextPlugin插件可以将CSS文件从html里分离出来
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader'
+          use: ['vue-style-loader', 'css-loader']
         })
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
       },
       {
         test: /\.(png|svg|jpg|gif)$/, //image的加载
