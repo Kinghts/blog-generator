@@ -38,7 +38,6 @@ module.exports = {
     compress: true,
     host: 'localhost',
     port: 8080,
-    historyApiFallback: true,
     noInfo: false,
     stats: 'minimal'
   },
