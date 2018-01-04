@@ -25,7 +25,7 @@ class Article {
       let date = this._createAt.split(' ')[0]
       return this._path + date + '/' + this.name + '.json'
     }
-    get _filePath() {
+    get filePath() {
       let date = this._createAt.split(' ')[0]
       return this._filePath + '/' + date + '/' + this.name + '.json'
     }
