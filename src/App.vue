@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <background></background>
-    <router-view></router-view>
+    <router-view class="view"></router-view>
   </div>
 </template>
 
@@ -23,5 +23,9 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .view {
+    position: relative;
+    z-index: 10;
   }
 </style>
