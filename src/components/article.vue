@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <h2 class="title">{{ article.name }}</h2>
+  <div class="article">
+    <div v-html="article.content" class="content">
+    </div>
     <div class="article-info">
       <span class="createAt">创建于 {{ article.createAt }}</span>
       <span class="updateAt">{{ article.updateAt }}</span>
-    </div>
-    <div class="content">
-      {{ article.content }}
     </div>
   </div>
 </template>
@@ -37,5 +35,16 @@ export default {
 </script>
 
 <style scoped>
-
+  .article {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex: 1;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 1200px;
+    background-color: #555;
+    color: #bbb;
+  }
 </style>
