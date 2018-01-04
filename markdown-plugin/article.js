@@ -8,20 +8,32 @@ class Article {
     constructor(name, path, filePath, content) {
         this.name = name
         this.keywords = ''
-        this.createAt = '' // 2017-01-01 09:09:09
+        this._createAt = '' // 2017-01-01 09:09:09
         this.updateAt = ''
-        this.path = path // 浏览器加载文章的路径
-        this.filePath = filePath // 输出文章的路径
+        this._path = path // 浏览器加载文章的路径
+        this._filePath = filePath // 输出文章的路径
         this._content = ''
         this.content = content
+    }
+    set createAt(value) {
+      this._createAt = value
+    }
+    get createAt() {
+      return this._createAt
+    }
+    get path() {
+      let date = this._createAt.split(' ')[0]
+      return this._path + date + '/' + this.name + '.json'
+    }
+    get _filePath() {
+      let date = this._createAt.split(' ')[0]
+      return this._filePath + '/' + date + '/' + this.name + '.json'
     }
     set content(value) {
         this._content = value
         this.hash = util.getHash(value)
         this.createAt = util.getDate()
-        let date = this.createAt.split(' ')[0]
-        this.path = this.path + date + '/' + this.name + '.json'
-        this.filePath = this.filePath + '/' + date + '/' + this.name + '.json'
+
     }
     get content() {
         return this._content
