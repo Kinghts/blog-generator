@@ -1,8 +1,7 @@
 const util = require('./util')
 const fs = require('fs')
 const path = require('path')
-const HyperDown = require('hyperdown')
-let parser = new HyperDown
+const marked = require('marked')
 
 class Article {
     constructor(name, path, filePath, content) {
@@ -30,10 +29,10 @@ class Article {
       return this._filePath + '/' + date + '/' + this.name + '.json'
     }
     set content(value) {
+      this.keywords = value.substr(0, JSON.stringify(value).indexOf('\\n') - 1).match(/^<!--keywords:(.*)-->$/)[1]
         this._content = value
         this.hash = util.getHash(value)
         this.createAt = util.getDate()
-
     }
     get content() {
         return this._content
@@ -41,9 +40,10 @@ class Article {
     toArticleJSON() {
         return JSON.stringify({
             name: this.name,
+            keywords: this.keywords,
             createAt: this.createAt,
             updateAt: this.updateAt,
-            content: parser.makeHtml(this.content)
+            content: marked(this.content)
         })
     }
     toJSON() { // 这里返回一个对象，以便parse时正确解析
