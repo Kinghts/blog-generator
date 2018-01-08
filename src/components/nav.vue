@@ -1,27 +1,35 @@
 <template>
   <nav class="nav">
-      <router-link :to="{ name: 'articleList' }">blog</router-link>
+    <router-link class="link" :to="{ name: 'articleList' }">首页</router-link>
+    <router-link class="link" :to="{ name: 'articleList' }">实验室</router-link>
   </nav>
 </template>
 
 <script>
-import ArticleList from './articleList'
 export default {
-  components: {
-    articlelist: ArticleList
-  }
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+  @bg-color: rgba(40, 42, 44, 0.6);
   .nav {
-    width: 50%;
-    height: 50%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: lightgray;
-    border-radius: 5px;
+    background-color: @bg-color;
+    width: 100%;
+    height: 38px;
+    line-height: 38px;
+    .link {
+      display: block;
+      padding: 0 38px;
+      color: #fff;
+      &:link {
+        text-decoration: none;
+      }
+      &:hover {
+        color: @bg-color;
+        background-color: #fff;
+      }
+    }
   }
 </style>
 
