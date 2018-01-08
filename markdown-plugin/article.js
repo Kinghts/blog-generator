@@ -29,7 +29,7 @@ class Article {
       return this._filePath + '/' + date + '/' + this.name + '.json'
     }
     set content(value) {
-      this.keywords = value.substr(0, JSON.stringify(value).indexOf('\\n') - 1).match(/^<!--keywords:(.*)-->$/)[1]
+      this.keywords = value.match(/^<!--keywords:(.*?)-->/)[1]
         this._content = value
         this.hash = util.getHash(value)
         this.createAt = util.getDate()
