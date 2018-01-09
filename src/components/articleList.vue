@@ -1,20 +1,19 @@
 <template>
-  <ul class="article-list">
-    <li class="article" :key="key" v-for="(article, key) in articles">
-      <router-link class="title" :to="{ path: article.routePath }">{{ key }}</router-link>
-      <span class="time">{{ article.createAt }}</span>
-    </li>
-  </ul>
+  <section class="article-list">
+    <article-cell :name="key" :articleObj="article" class="article" :key="key" v-for="(article, key) in articles">
+    </article-cell>
+  </section>
 </template>
 
 <script>
 import axios from 'axios'
 import { mapPath } from '../config'
+import article from './article'
 export default {
   data () {
     return {
         articles: {
-          'aaa': {
+          [Symbol()]: {
           createAt: '',
           updateAt: '',
           path: '',
@@ -38,30 +37,17 @@ export default {
         alert(err)
         console.log(err)
       })
+  },
+  components: {
+    'article-cell': article
   }
 }
 </script>
 
 <style scoped>
   .article-list {
-    border: 1px solid black;
     border-radius: 5px;
-    width: 80%;
-    padding: 20px;
-    background-color: #ddd;
     display: flex;
-  }
-  .article {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-  .title {
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1.5;
-  }
-  .time {
-    padding: 12px 0;
+    flex-direction: column;
   }
 </style>
