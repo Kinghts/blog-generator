@@ -12,6 +12,7 @@ new Vue({
   render: h => h(App),
   router: new VueRouter({
     routes: [
+      { path: '/', name: 'articleList', component: ArticleList },
       { path: '/articleList', name: 'articleList', component: ArticleList },
       { path: '/article/*', name: 'article', component: Article }
     ]
