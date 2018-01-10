@@ -1,5 +1,5 @@
 <template>
-  <nav class="nav">
+  <nav :class="['nav', navClass]">
     <router-link class="link" :to="{ name: 'articleList' }">首页</router-link>
     <router-link class="link" :to="{ name: 'articleList' }">实验室</router-link>
   </nav>
@@ -7,6 +7,28 @@
 
 <script>
 export default {
+  data () {
+    return {
+      navClass: 'nav-show',
+      scrollListener: null
+    }
+  },
+  mounted () {
+    this.$data.scrollListener = this.generateScrollListener()
+    window.addEventListener('scroll', this.$data.scrollListener)
+  },
+  methods: {
+    generateScrollListener () {
+      let lastScrollY = 0, _m = this
+      return function hideOnScroll(e) {
+        _m.$data.navClass = lastScrollY >= window.scrollY ? 'nav-show' : 'nav-hide'
+        lastScrollY = window.scrollY
+      }
+    }
+  },
+  beforeDestory () {
+    window.removeEventListener('scroll', this.$data.scrollListener)
+  }
 }
 </script>
 
@@ -30,6 +52,14 @@ export default {
         background-color: #fff;
       }
     }
+  }
+  .nav-show {
+    transform: none;
+    transition: transform 300ms ease;
+  }
+  .nav-hide {
+    transform: translateY(-100%);
+    transition: transform 300ms ease;
   }
 </style>
 
