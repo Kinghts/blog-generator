@@ -43,6 +43,10 @@ export default {
       position: relative;
       width: 100%;
       .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
       }
       .wrapper {
         height: 400px;
