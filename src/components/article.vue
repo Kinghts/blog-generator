@@ -46,7 +46,6 @@ export default {
       this.$data.article.name = this.$props.name
       axios.get(this.$data.article.path).then(res => {
         this.$data.article.brief = res.data.brief
-        console.log(res.data)
       }).catch(err => {
         alert(err)
         console.error(err)
