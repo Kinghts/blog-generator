@@ -10,7 +10,10 @@
       </div>
     </header>
     <div class="article-body">
-      <div v-html="article.content" class="content"></div>
+      <!--简介-->
+      <div v-if="article.brief" v-html="article.brief"></div>
+      <!--全文-->
+      <div v-else v-html="article.content" class="content"></div>
     </div>
     <footer class="article-footer">
       <router-link v-if="article.routePath" :to="{ path: article.routePath }">阅读全文 »</router-link>
@@ -28,24 +31,32 @@ export default {
         name: '',
         createAt: '',
         updateAt: '',
+        brief: '',
         content: '',
+        path: '',
         routePath: ''
       }
     }
   },
   mounted () {
-    if (this.$props.articleObj) {
-      this.$data.article = this.$props.articleObj
+    if (this.$props.articleObj) { // 在博客首页
+      Object.assign(this.$data.article, this.$props.articleObj)
       this.$data.article.name = this.$props.name
-      return
-    }
-    axios.get(this.$route.path + '.json')
-      .then(res => {
-        this.$data.article = res.data
-      })
-      .catch(err => {
+      axios.get(this.$data.article.path).then(res => {
+        this.$data.article.brief = res.data.brief
+        console.log(res.data)
+      }).catch(err => {
         alert(err)
+        console.error(err)
       })
+    } else { // 文章页
+      axios(this.$route.path + '.json').then(res => {
+        this.$data.article = res.data
+      }).catch(err => {
+        alert(err)
+        console.error(err)
+      })
+    }
   }
 }
 </script>

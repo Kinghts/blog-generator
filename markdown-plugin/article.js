@@ -11,6 +11,7 @@ class Article {
         this.updateAt = ''
         this._path = path // 浏览器加载文章的路径
         this._filePath = filePath // 输出文章的路径
+        this.brief = ''
         this._content = ''
         this.content = content
     }
@@ -30,6 +31,8 @@ class Article {
     }
     set content(value) {
       this.keywords = value.match(/^<!--keywords:(.*?)-->/)[1]
+      let temp = value.match(/^(.|\s)+(\.|。){1}/)
+      this.brief = temp ? temp[0] : value
         this._content = value
         this.hash = util.getHash(value)
         this.createAt = util.getDate()
@@ -43,6 +46,7 @@ class Article {
             keywords: this.keywords,
             createAt: this.createAt,
             updateAt: this.updateAt,
+            brief: marked(this.brief),
             content: marked(this.content)
         })
     }
