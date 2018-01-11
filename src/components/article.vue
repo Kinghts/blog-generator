@@ -7,11 +7,12 @@
       <div class="article-info">
         <span class="createAt">创建于 {{ article.createAt }}</span>
         <!--span class="updateAt">{{ article.updateAt }}</span-->
+        <span class="tag">标签: {{ article.keywords }}</span>
       </div>
     </header>
     <div class="article-body">
       <!--简介-->
-      <div v-if="article.brief" v-html="article.brief"></div>
+      <div v-if="article.brief" v-html="article.brief" class="content"></div>
       <!--全文-->
       <div v-else v-html="article.content" class="content"></div>
     </div>
@@ -29,6 +30,7 @@ export default {
     return {
       article: {
         name: '',
+        keywords: '',
         createAt: '',
         updateAt: '',
         brief: '',
@@ -84,12 +86,16 @@ export default {
         }
       }
       .article-info {
-        font-size: 12px;
+        font-size: 14px;
         color: #555;
       }
     }
     .article-body {
       margin: 10px 0;
+      .content {
+        font-size: 14px;
+        color: #555;
+      }
     }
     .article-footer {
       a {
