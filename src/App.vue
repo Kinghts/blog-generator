@@ -18,13 +18,11 @@
 </template>
 
 <script>
-import background from './components/background'
 import nav from './components/nav'
 import wrapper from './components/wrapper'
 export default {
   name: 'app',
   components: {
-    background: background,
     navigator: nav,
     wrapper: wrapper
   }
