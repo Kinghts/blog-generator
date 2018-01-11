@@ -29,7 +29,6 @@ export default {
         for (let name in res.data) {
           let article = _articles[name]
           article.routePath = article.path.substr(1, article.path.lastIndexOf('.json') - 1)
-          console.log(article.path)
         }
         this.$data.articles = res.data
       })
