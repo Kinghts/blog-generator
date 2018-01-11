@@ -54,9 +54,10 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/, //image的加载
-        use: [
-          'file-loader'
-        ]
+        loader: 'file-loader',
+        options: {
+          name: '/img/[name].[hash:7].[ext]' // 这里使用绝对路径，解决生成的CSS里url路径不正确的问题
+        }
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/, //font的加载
