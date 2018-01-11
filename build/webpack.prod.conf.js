@@ -9,8 +9,9 @@ module.exports = merge(baseWebpackConfig, {
   devtool: '#source-map',
   plugins: [
     new CleanWebpackPlugin(
-      ['../dist/*.*'],
+      ['dist/*.*', 'dist/css', 'dist/img', 'dist/js'],
       {
+        root: path.resolve(__dirname, '..'),
         exclude: ['/article']
       }
     ),
