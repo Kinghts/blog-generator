@@ -49,7 +49,7 @@ export default {
         z-index: 100;
       }
       .wrapper {
-        height: 400px;
+        height: 600px;
         width: 100%;
       }
     }
