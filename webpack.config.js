@@ -74,7 +74,10 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: 'vue-loader',
+        options: {
+          extractCSS: true
+        }
       },
       {
         test: /\.(png|svg|jpg|gif)$/, //image的加载
