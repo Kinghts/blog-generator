@@ -31,7 +31,13 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          extractCSS: true
+          loaders: {
+            less: ExtractTextPlugin.extract({ // 参照vue-loader官网的配置
+              use: ['css-loader', 'less-loader'],
+              fallback: 'vue-style-loader',
+              publicPath: '/' // 解决样式里引入的资源的路径问题
+            })
+          }
         }
       },
       {
@@ -42,21 +48,17 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/, //css的加载，使用ExtractTextPlugin插件可以将CSS文件从html里分离出来
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['vue-style-loader', 'css-loader']
-        })
-      },
-      {
         test: /\.less$/,
-        loader: 'style-loader!css-loader!less-loader'
+        use: ExtractTextPlugin.extract({ // 外部引入的样式需要单独配置
+          use: ['css-loader', 'less-loader'],
+          fallback: 'style-loader'
+        })
       },
       {
         test: /\.(png|svg|jpg|gif)$/, //image的加载
         loader: 'file-loader',
         options: {
-          name: '/img/[name].[hash:7].[ext]' // 这里使用绝对路径，解决生成的CSS里url路径不正确的问题
+          name: 'img/[name].[hash:7].[ext]'
         }
       },
       {
