@@ -18,8 +18,7 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
-      },
-      sourceMap: true
+      }
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
