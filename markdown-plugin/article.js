@@ -35,11 +35,11 @@ class Article {
         throw '没有在文章中找到keywords关键字'
       }
       this.keywords = regResult[1]
-      let temp = value.match(/^(.|\s)+(\.|。){1}/)
-      this.brief = temp ? temp[0] : value
-        this._content = value
-        this.hash = util.getHash(value)
-        this.createAt = util.getDate()
+      let temp = value.match(/-->(\s*)(.+)。/)
+      this.brief = temp ? temp[2] : value
+      this._content = value
+      this.hash = util.getHash(value)
+      this.createAt = util.getDate()
     }
     get content() {
         return this._content
