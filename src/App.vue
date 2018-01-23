@@ -4,12 +4,12 @@
     <header class="header">
       <navigator class="nav"></navigator>
       <wrapper class="wrapper"></wrapper>
+      <h1 class="blog-name">Kinghts's Blog</h1>
     </header>
     <main class="main">
       <router-view class="view"></router-view>
     </main>
     <footer class="footer">
-      <div class="footer-image"></div>
       <div class="footer-inner">
         本博客参考<a href="https://diygod.me">diygod.me</a>的设计，在此表示感谢.
       </div>
@@ -50,26 +50,28 @@ export default {
         height: 600px;
         width: 100%;
       }
+      .blog-name {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 5em;
+        color: rgba(255, 255, 255, 0.5);
+        margin: 0;
+      }
     }
     .main {
       position: relative;
       width: 100%;
       display: flex;
       justify-content: center;
+      margin: 40px;
     }
     .footer {
       width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      .footer-image {
-        width: 100%;
-        height: 400px;
-        background-image: url(./assets/img/footer-image.jpg);
-        background-size: cover;
-        background-position: center 50%;
-        background-repeat: no-repeat;
-      }
       .footer-inner {
         padding: 10px;
         color: #888;
