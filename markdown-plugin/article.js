@@ -30,7 +30,11 @@ class Article {
       return this._filePath + '/' + date + '/' + this.name + '.json'
     }
     set content(value) {
-      this.keywords = value.match(/^<!--keywords:(.*?)-->/)[1]
+      let regResult = value.match(/^<!--keywords:(.*?)-->/)
+      if (!regResult) {
+        throw '没有在文章中找到keywords关键字'
+      }
+      this.keywords = regResult[1]
       let temp = value.match(/^(.|\s)+(\.|。){1}/)
       this.brief = temp ? temp[0] : value
         this._content = value
