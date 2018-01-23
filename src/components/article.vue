@@ -12,7 +12,7 @@
     </header>
     <div class="article-body">
       <!--简介-->
-      <div v-if="article.brief" v-html="article.brief" class="content"></div>
+      <div v-if="!article.content" v-html="article.brief" class="content"></div>
       <!--全文-->
       <div v-else v-html="article.content" class="content"></div>
     </div>
