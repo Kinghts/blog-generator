@@ -59,8 +59,7 @@ MarkdownPlugin.prototype.apply = function (compiler, options) {
             callback()
         })
         .catch(err => {
-            console.log(_this.logPre + err)
-            callback()
+          console.log(_this.logPre + err)
         })
     })
 }
