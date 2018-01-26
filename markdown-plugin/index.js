@@ -22,6 +22,9 @@ MarkdownPlugin.prototype.apply = function (compiler, options) {
             let sourceFiles = await util.readDir(_this.options.source, true)
             let newestMap = {}
             for (let file of sourceFiles) {
+                if (!/\.md$/.test(file.name)) {
+                  continue
+                }
                 let fileName = file.name.substr(0, file.name.length - 3)
                 if (newestMap.hasOwnProperty(fileName)) {
                     throw _this.logPre + 'repeated article name： ' + fileName

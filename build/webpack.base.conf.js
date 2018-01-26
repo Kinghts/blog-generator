@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const MarkdownPlugin = require('../markdown-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -13,7 +14,8 @@ module.exports = {
       source: './markdown',
       output: './article/', // 该路径相对于output.path
       path: './article/' // 前端调用时的路径
-    })
+    }),
+    new CopyWebpackPlugin([{ from: './markdown/img', to: './img' }])
   ],
   output: {
     filename: 'js/[name].[hash:8].js',
