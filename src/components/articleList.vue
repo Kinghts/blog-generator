@@ -2,6 +2,11 @@
   <section class="article-list">
     <article-cell :name="key" :articleObj="article" class="article" :key="key" v-for="(article, key) in articles">
     </article-cell>
+    <pagination
+      @toPage="toPage"
+      :start="1" :total-size="5" :page-size="3" :current="1"
+      class="article-pagination">
+    </pagination>
   </section>
 </template>
 
@@ -9,6 +14,7 @@
 import axios from 'axios'
 import { mapPath } from '../config'
 import article from './article'
+import pagination from './pagination'
 export default {
   data () {
     return {
@@ -38,15 +44,20 @@ export default {
         console.log(err)
       })
   },
+  methods: {
+    toPage (num) {
+      console.log('to page: ' + num)
+    }
+  },
   components: {
-    'article-cell': article
+    'article-cell': article,
+    'pagination': pagination
   }
 }
 </script>
 
 <style scoped>
   .article-list {
-    border-radius: 5px;
     display: flex;
     flex-direction: column;
   }
