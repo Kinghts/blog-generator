@@ -17,17 +17,13 @@ export default {
       range: []
     }
   },
-  mounted () {
-    let totalSize = parseInt(this.$props.totalSize)
-    let pageSize = parseInt(this.$props.pageSize)
-    this.$data.currentPage = this.$props.current ? parseInt(this.$props.current) : this.$props.start
-    let start, range, index = totalSize - pageSize + 1
-    if (this.$data.currentPage > index) { // 以currentPage为起点时超出范围
-      start = index
-    } else {
-      start = this.$data.currentPage
+  watch: {
+    totalSize: function () {
+      this.init()
     }
-    this.$data.range.push(...Array(pageSize).fill('n').map((v, i) => {return i + start}))
+  },
+  mounted () {
+    this.init()
   },
   computed: {
     hide: function () {
@@ -41,6 +37,18 @@ export default {
     }
   },
   methods: {
+    init() {
+      let totalSize = this.$props.totalSize
+      let pageSize = this.$props.pageSize
+      this.$data.currentPage = this.$props.current ? this.$props.current : this.$props.start
+      let start, range, index = totalSize - pageSize + 1
+      if (this.$data.currentPage > index && index >= 1) { // 以currentPage为起点时超出范围
+        start = index
+      } else {
+        start = this.$data.currentPage
+      }
+      this.$data.range = Array(pageSize).fill('n').map((v, i) => {return i + start})
+    },
     goToPrePage () {
       let current = this.$data.currentPage--
       let range = this.$data.range
