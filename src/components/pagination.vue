@@ -47,6 +47,10 @@ export default {
       } else {
         start = this.$data.currentPage
       }
+      if (totalSize < pageSize) {
+        this.$data.range = Array(totalSize).fill('n').map((v, i) => {return i + start})
+        return
+      }
       this.$data.range = Array(pageSize).fill('n').map((v, i) => {return i + start})
     },
     goToPrePage () {
