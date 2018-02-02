@@ -45,19 +45,24 @@ export default {
   methods: {
     init() {
       let { totalItems, itemsPerPage, displayNum, startPage } = this.$props
-
+      let range = this.$data.range
+      // 检查参数是否越界
+      let totalPage = Math.ceil(totalItems/itemsPerPage)
+      if (totalItems!==0 && (startPage < 1 || startPage > totalPage)) {
+        this.$emit('error', 'pagination组件： props中的startPage参数超出范围')
+        return
+      }
       // 清空分页选项
-      this.$data.range.splice(0)
+      range.splice(0)
       // 确定分页组件显示的分页选项
       if (totalItems <= itemsPerPage) { // 只有一页
-        this.$data.range.push(1)
+        range.push(1)
       } else { // 多页
         let rangeStart = (Math.ceil(startPage/displayNum) - 1) * displayNum + 1
-        this.$data.range.push(...Array(displayNum).fill('n').map((v, i) => {return i + rangeStart}))
+        range.push(...Array(displayNum).fill('n').map((v, i) => {return i + rangeStart}))
       }
       // 确定当前选中页
-      this.$data.currentPage = this.$data.range.indexOf(startPage) === -1 ? 1 : startPage
-      this.go(this.$data.currentPage)
+      this.$data.currentPage = startPage
     },
     goToPrePage () {
       let current = this.$data.currentPage--
