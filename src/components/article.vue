@@ -25,7 +25,7 @@
 <script>
 import axios from 'axios'
 export default {
-  props: ['name', 'articleObj'],
+  props: ['articleObj'],
   data () {
     return {
       article: {
@@ -33,26 +33,35 @@ export default {
         keywords: '',
         createAt: '',
         updateAt: '',
-        brief: '',
-        content: '',
+        brief: '', // 需要单独请求
+        content: '', // 需要单独请求
         path: '',
         routePath: ''
       }
     }
   },
+  watch: {
+    articleObj: function (newArticle) { // 分页组件切换时，有些article不会重新初始化
+      this.initArticleWithBrief()
+    }
+  },
   mounted () {
     if (this.$props.articleObj) { // 在博客首页
-      Object.assign(this.$data.article, this.$props.articleObj)
-      this.$data.article.name = this.$props.name
-      axios.get(this.$data.article.path).then(res => {
-        this.$data.article.brief = res.data.brief
+      this.initArticleWithBrief()
+    } else { // 文章页
+      axios(this.$route.path + '.json').then(res => {
+        this.$data.article = res.data
       }).catch(err => {
         alert(err)
         console.error(err)
       })
-    } else { // 文章页
-      axios(this.$route.path + '.json').then(res => {
-        this.$data.article = res.data
+    }
+  },
+  methods: {
+    initArticleWithBrief() {
+      Object.assign(this.$data.article, this.$props.articleObj)
+      axios.get(this.$data.article.path).then(res => {
+        this.$data.article.brief = res.data.brief
       }).catch(err => {
         alert(err)
         console.error(err)
