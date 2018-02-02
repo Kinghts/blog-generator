@@ -1,64 +1,95 @@
 <template>
   <section class="article-list">
-    <article-cell :name="key" :articleObj="article" class="article" :key="key" v-for="(article, key) in articles">
+    <article-cell v-for="(article, key) in showedArticles"
+      :articleObj="article" :key="key"
+      class="article" >
     </article-cell>
     <pagination
-      @toPage="toPage"
-      :start="1" :total-size="5" :page-size="3" :current="1"
+      @toPage="toPage" @error="paginationErrorHandler"
+      :totalItems="articles.length" :itemsPerPage="articlePerPage"
+      :displayNum="2" :startPage="currentPage"
       class="article-pagination">
     </pagination>
   </section>
 </template>
 
 <script>
-import axios from 'axios'
-import { mapPath } from '../config'
-import article from './article'
-import pagination from './pagination'
+import axios from "axios"
+import { mapPath } from "../config"
+import article from "./article"
+import pagination from "./pagination"
 export default {
-  data () {
+  data() {
     return {
-        articles: {
-          [Symbol()]: {
-          keywords: '',
-          createAt: '',
-          updateAt: '',
-          path: '',
-          routePath: '/'
-        }
-      }
+      articles: [ // 所有article
+        /*
+        {
+          name: '',
+          keywords: "",
+          createAt: "",
+          updateAt: "",
+          path: "",
+          routePath: "/"
+        }*/
+      ],
+      showedArticles: [], // 当前页显示的article
+      articlePerPage: 3,
+      currentPage: 1
     }
   },
-  mounted () {
-    axios.get(mapPath)
-      .then((res) => {
-        let _articles = res.data
+  mounted() {
+    if (this.$route.params.pageNum) {
+      this.$data.currentPage = parseInt(this.$route.params.pageNum)
+    }
+    axios
+      .get(mapPath)
+      .then(res => {
+        let _data = res.data, articles = []
         for (let name in res.data) {
-          let article = _articles[name]
-          article.routePath = article.path.substr(1, article.path.lastIndexOf('.json') - 1)
+          let article = {
+            'name': name,
+            ..._data[name],
+            'routePath': _data[name].path.substr(
+              1,
+              _data[name].path.lastIndexOf(".json") - 1
+            )
+          }
+          articles.push(article)
         }
-        this.$data.articles = res.data
+        articles.sort((a, b) => { return new Date(a.createAt) < new Date(b.createAt) })
+        this.$data.articles = articles
+        this.$data.showedArticles.push(...this.getPageArticles(this.$data.currentPage, this.$data.articlePerPage, articles))
       })
       .catch(err => {
         alert(err)
-        console.log(err)
+        console.error(err)
       })
   },
   methods: {
-    toPage (num) {
-      console.log('to page: ' + num)
+    toPage(pageNum) {
+      console.log("to page: " + pageNum)
+      this.$router.push({ path: '/articleList/page/' + pageNum })
+      this.$data.showedArticles.splice(0)
+      this.$data.showedArticles.push(...this.getPageArticles(pageNum, this.$data.articlePerPage, this.$data.articles))
+    },
+    getPageArticles(currentPage, maxNum, articles) {
+      return articles.slice((currentPage - 1) * maxNum, (currentPage - 1) * maxNum + maxNum)
+    },
+    paginationErrorHandler(err) {
+      alert(err)
+      console.error(err)
     }
   },
   components: {
-    'article-cell': article,
-    'pagination': pagination
+    "article-cell": article,
+    pagination: pagination
   }
-}
+};
 </script>
 
 <style scoped>
-  .article-list {
-    display: flex;
-    flex-direction: column;
-  }
+.article-list {
+  display: flex;
+  flex-direction: column;
+}
 </style>
