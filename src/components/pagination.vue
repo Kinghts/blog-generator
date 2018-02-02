@@ -1,24 +1,37 @@
 <template>
     <nav class="pagination">
-      <span @click="goToPrePage" :class="['pre-btn', { hide: hide==='pre' }]">&lt</span>
+      <span @click="goToPrePage" :class="['pre-btn', { hide: hidePreBtn }]">&lt</span>
       <span @click="go(n)" v-for="n in range" :key="n" :class="['page-btn', { selected: n===currentPage }]">
         {{ n }}
       </span>
-      <span @click="goToNextPage" :class="['next-btn', { hide: hide==='next' }]">&gt</span>
+      <span @click="goToNextPage" :class="['next-btn', { hide: hideNextBtn }]">&gt</span>
     </nav>
 </template>
 
 <script>
 export default {
-  props: ['start', 'totalSize', 'pageSize', 'current'],
+  props: {
+    totalItems: { // 总条目数，必选，整数
+      type: Number, required: true
+    },
+    itemsPerPage: { // 每页显示的条目数，可选，默认5
+      type: Number, default: 5
+    },
+    displayNum: { // 分页组件显示的分页选项数，可选，默认5
+      type: Number, default: 5
+    },
+    startPage: { // 初始选中的页面,可选，默认1，表示第一页
+      type: Number, default: 1
+    }
+  },
   data () {
     return {
-      currentPage: 0,
-      range: []
+      currentPage: 1, // 当前选中的页面
+      range: [] // 分页组件显示的分页选项
     }
   },
   watch: {
-    totalSize: function () {
+    totalItems: function () {
       this.init()
     }
   },
@@ -26,32 +39,25 @@ export default {
     this.init()
   },
   computed: {
-    hide: function () {
-      if (parseInt(this.$props.start) === this.$data.currentPage) {
-        return 'pre'
-      }
-      if (parseInt(this.$props.start) + parseInt(this.$props.totalSize) - 1 === this.$data.currentPage){
-        return 'next'
-      }
-      return ''
-    }
+    hidePreBtn: function () { return this.$data.currentPage === 1 },
+    hideNextBtn: function () { return  Math.ceil(this.$props.totalItems/this.$props.itemsPerPage) === this.$data.currentPage }
   },
   methods: {
     init() {
-      let totalSize = this.$props.totalSize
-      let pageSize = this.$props.pageSize
-      this.$data.currentPage = this.$props.current ? this.$props.current : this.$props.start
-      let start, range, index = totalSize - pageSize + 1
-      if (this.$data.currentPage > index && index >= 1) { // 以currentPage为起点时超出范围
-        start = index
-      } else {
-        start = this.$data.currentPage
+      let { totalItems, itemsPerPage, displayNum, startPage } = this.$props
+
+      // 清空分页选项
+      this.$data.range.splice(0)
+      // 确定分页组件显示的分页选项
+      if (totalItems <= itemsPerPage) { // 只有一页
+        this.$data.range.push(1)
+      } else { // 多页
+        let rangeStart = (Math.ceil(startPage/displayNum) - 1) * displayNum + 1
+        this.$data.range.push(...Array(displayNum).fill('n').map((v, i) => {return i + rangeStart}))
       }
-      if (totalSize < pageSize) {
-        this.$data.range = Array(totalSize).fill('n').map((v, i) => {return i + start})
-        return
-      }
-      this.$data.range = Array(pageSize).fill('n').map((v, i) => {return i + start})
+      // 确定当前选中页
+      this.$data.currentPage = this.$data.range.indexOf(startPage) === -1 ? 1 : startPage
+      this.go(this.$data.currentPage)
     },
     goToPrePage () {
       let current = this.$data.currentPage--
@@ -75,9 +81,6 @@ export default {
         range.push(current + 1)
       }
       this.$emit('toPage', current + 1)
-    },
-    inRange (totalSize, curent) {
-      return 1 <= current && current <= totalSize
     }
   }
 }
