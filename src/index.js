@@ -14,6 +14,7 @@ new Vue({
     routes: [
       { path: '/', redirect: '/articleList' },
       { path: '/articleList', name: 'articleList', component: ArticleList },
+      { path: '/articleList/page/:pageNum', name: 'page', component: ArticleList },
       { path: '/article/*', name: 'article', component: Article }
     ]
   })
