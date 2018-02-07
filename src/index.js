@@ -1,3 +1,4 @@
+import 'normalize.css'
 import Vue from 'vue'
 import Nav from './components/nav'
 import Article from './components/article'
