@@ -38,11 +38,12 @@ export default {
     display: flex;
     background-color: @bg-color;
     width: 100%;
-    height: 38px;
-    line-height: 38px;
+    height: 3.8rem;
+    line-height: 3.8rem;
+    font-size: 1.5rem;
     .link {
       display: block;
-      padding: 0 38px;
+      padding: 0 3.8rem;
       color: #fff;
       &:link {
         text-decoration: none;

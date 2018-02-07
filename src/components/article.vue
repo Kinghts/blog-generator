@@ -76,16 +76,15 @@ export default {
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 772px;
-    margin: 20px;
-    padding: 40px;
-    border-radius: 5px;
+    margin: 2rem;
+    padding: 4rem;
+    border-radius: .5rem;
     color: #bbb;
     background-color: #FFF;
     .article-header {
       .article-title {
         text-align: center;
-        font-size: 25px;
+        font-size: 2.5rem;
         color: #444;
         font-weight: 700;
         a {
@@ -94,23 +93,23 @@ export default {
         }
       }
       .article-info {
-        font-size: 14px;
+        font-size: 1.4rem;
         color: #555;
       }
     }
     .article-body {
       margin: 10px 0;
       .content {
-        font-size: 14px;
+        font-size: 1.4rem;
         color: #555;
       }
     }
     .article-footer {
       a {
-        border-radius: 5px;
-        padding: 5px 15px;
+        border-radius: .5rem;
+        padding: .5rem 1.5rem;
         color: #FFF;
-        font-size: 13px;
+        font-size: 1.3rem;
         background-color: #97dffd;
         text-decoration: none;
         &:hover {

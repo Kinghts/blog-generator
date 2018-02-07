@@ -32,30 +32,25 @@ export default {
 <style lang="less">
   @import './assets/main.less';
   #app {
-    width: 100%;
     min-height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     .header {
       position: relative;
-      width: 100%;
+      min-width: 100%;
       .nav {
         position: fixed;
         top: 0;
         left: 0;
         z-index: 100;
       }
-      .wrapper {
-        height: 600px;
-        width: 100%;
-      }
       .blog-name {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 5em;
+        font-size: 6vw;
         color: rgba(255, 255, 255, 0.5);
         margin: 0;
       }
@@ -65,7 +60,7 @@ export default {
       width: 100%;
       display: flex;
       justify-content: center;
-      margin: 40px;
+      margin: 4rem;
     }
     .footer {
       width: 100%;
@@ -73,7 +68,7 @@ export default {
       flex-direction: column;
       justify-content: center;
       .footer-inner {
-        padding: 10px;
+        padding: 1rem;
         color: #888;
         background-color: #232323;
         text-align: center;
@@ -81,6 +76,16 @@ export default {
           color: #795548;
         }
       }
+    }
+  }
+  @media screen and (max-width: 1200px) {
+    .wrapper {
+      height: 300px;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    .wrapper {
+      height: 600px;
     }
   }
 </style>

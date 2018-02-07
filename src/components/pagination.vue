@@ -93,19 +93,18 @@ export default {
 
 <style scoped lang="less">
   .pagination {
-    max-width: 100%;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 5px;
+    margin: 2rem;
+    padding: 2rem;
+    border-radius: .5rem;
     background-color: #FFF;
     text-align: center;
     span.pre-btn, span.page-btn, span.next-btn {
-      margin: 10px;
-      padding: 5px 10px;
+      margin: 1rem;
+      padding: .5rem 1rem;
     }
     span.page-btn{
       border: 1px solid #97dffd;
-      border-radius: 5px;
+      border-radius: .5rem;
     }
     span.page-btn:hover {
       background-color: #97dffd;
