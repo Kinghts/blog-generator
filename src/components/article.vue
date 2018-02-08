@@ -76,8 +76,8 @@ export default {
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin: 2rem;
-    padding: 4rem;
+    margin: 2rem 0;
+    padding: 2rem;
     border-radius: .5rem;
     color: #bbb;
     background-color: #FFF;
@@ -85,6 +85,7 @@ export default {
       .article-title {
         text-align: center;
         font-size: 2.5rem;
+        margin: 0;
         color: #444;
         font-weight: 700;
         a {
@@ -93,7 +94,7 @@ export default {
         }
       }
       .article-info {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         color: #555;
       }
     }

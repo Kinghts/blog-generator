@@ -93,7 +93,7 @@ export default {
 
 <style scoped lang="less">
   .pagination {
-    margin: 2rem;
+    margin: 2rem 0;
     padding: 2rem;
     border-radius: .5rem;
     background-color: #FFF;

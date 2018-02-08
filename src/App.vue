@@ -39,6 +39,7 @@ export default {
     .header {
       position: relative;
       min-width: 100%;
+      margin-bottom: 1rem;
       .nav {
         position: fixed;
         top: 0;
@@ -57,16 +58,16 @@ export default {
     }
     .main {
       position: relative;
-      width: 100%;
+      max-width: 997px;
       display: flex;
       justify-content: center;
-      margin: 4rem;
     }
     .footer {
       width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      margin-top: 1rem;
       .footer-inner {
         padding: 1rem;
         color: #888;
