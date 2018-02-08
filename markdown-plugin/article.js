@@ -22,11 +22,11 @@ class Article {
       return this._createAt
     }
     get path() {
-      let date = this._createAt.split(' ')[0]
+      let date = util.dateFormat.call(this._createAt, 'yyyy-MM')
       return this._path + date + '/' + this.name + '.json'
     }
     get filePath() {
-      let date = this._createAt.split(' ')[0]
+      let date = util.dateFormat.call(this._createAt, 'yyyy-MM')
       return this._filePath + '/' + date + '/' + this.name + '.json'
     }
     set content(value) {
