@@ -52,7 +52,7 @@ module.exports = {
       {
         test: /\.(less|css)$/,
         use: ExtractTextPlugin.extract({ // 外部引入的样式需要单独配置
-          use: ['css-loader', 'less-loader'],
+          use: ['css-loader', 'less-loader', 'postcss-loader'],
           fallback: 'style-loader'
         })
       },

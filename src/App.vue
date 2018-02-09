@@ -30,6 +30,7 @@ export default {
 </script>
 
 <style lang="less">
+  @import 'colors.css';
   @import './assets/main.less';
   #app {
     min-height: 100%;
