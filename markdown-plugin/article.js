@@ -7,7 +7,7 @@ class Article {
     constructor(name, path, filePath, content) {
         this.name = name
         this.keywords = ''
-        this._createAt = '' // 2017-01-01 09:09:09
+        this._createAt = '' // 2017-01-01
         this.updateAt = ''
         this._path = path // 浏览器加载文章的路径
         this._filePath = filePath // 输出文章的路径
@@ -39,7 +39,9 @@ class Article {
       this.brief = temp ? temp[2] : value
       this._content = value
       this.hash = util.getHash(value)
-      this.createAt = util.getDate()
+      let createAt = value.match(/<!--create:(.*?)-->/)
+      if (!createAt) { throw '没有在文章中找到create关键字' }
+      this.createAt = createAt[1]
     }
     get content() {
         return this._content

@@ -32,26 +32,32 @@ MarkdownPlugin.prototype.apply = function (compiler, options) {
                 }
                 newestMap[fileName] = new Article(fileName, _this.options.path, _this.options.output, file.content)
             }
-            //读取旧的map文件
+            // 读取旧的map文件
             let oldMap
             let mapFilePath = path.resolve(compiler.outputPath, _this.options.output, _this.mapFileName)
             if (await util.fileOrDirExist(mapFilePath)) {
                 oldMap = JSON.parse(await util.readFile(mapFilePath))
             }
 
-            //比较新旧map
-            let updates = diff(newestMap, oldMap)
+            // 比较新旧map
+            let changes = diff(newestMap, oldMap)
 
-            //更新文件
-            for (let name of updates) {
-                // await newestMap[name].writeToFile()
-                let content = newestMap[name].toArticleJSON()
-                compilation.assets[newestMap[name].filePath] = {
-                    source: () => content,
-                    size: () => content.length
-                }
-            }
-            console.log(_this.logPre + 'update/new ' + updates.length + ' articles')
+            // 更新文件
+            changes.update.map((name) => {
+              let content = newestMap[name].toArticleJSON()
+              compilation.assets[newestMap[name].filePath] = {
+                  source: () => content,
+                  size: () => content.length
+              }
+            })
+            console.log(_this.logPre + 'update/new ' + changes.update.length + ' articles')
+
+            // 删除文件
+            changes.delete.map(async (name) => {
+              await util.deleteFile(path.resolve(_this.options.root, oldMap[name].path))
+            })
+            console.log(_this.logPre + 'delete ' + changes.delete.length + ' articles')
+
             // await util.createFile(mapFilePath, JSON.stringify(newestMap))
             let mapJSON = JSON.stringify(newestMap)
             compilation.assets[_this.options.output + _this.mapFileName] = {

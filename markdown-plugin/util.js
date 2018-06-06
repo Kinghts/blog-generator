@@ -162,6 +162,18 @@ async function readDir(dir, recursion) {
     return fileArr
 }
 
+async function deleteFile(p) {
+  return await new Promise(function (resolve, reject) {
+    fs.unlink(p, function (err) {
+      if (err) {
+        reject(err)
+        return
+      }
+      resolve()
+    })
+  })
+}
+
 module.exports = {
     getHash: getHash,
     getDate: getDate,
@@ -171,5 +183,6 @@ module.exports = {
     createFile: createFile,
     stat: stat,
     readFile: readFile,
-    readDir: readDir
+    readDir: readDir,
+    deleteFile: deleteFile
 }

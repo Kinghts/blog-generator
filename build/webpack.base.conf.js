@@ -11,6 +11,7 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('css/[name].[contentHash:8].css'),
     new MarkdownPlugin({
+      root: path.resolve(__dirname, '../dist'),
       source: './markdown',
       output: './article/', // 该路径相对于output.path
       path: './article/' // 前端调用时的路径
@@ -52,7 +53,7 @@ module.exports = {
       {
         test: /\.(less|css)$/,
         use: ExtractTextPlugin.extract({ // 外部引入的样式需要单独配置
-          use: ['css-loader', 'less-loader', 'postcss-loader'],
+          use: ['css-loader', 'less-loader'],
           fallback: 'style-loader'
         })
       },
