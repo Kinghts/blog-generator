@@ -6,7 +6,6 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = merge(baseWebpackConfig, {
-  devtool: '#source-map',
   plugins: [
     new CleanWebpackPlugin(
       ['dist/*.*', 'dist/css', 'dist/img', 'dist/js'],
