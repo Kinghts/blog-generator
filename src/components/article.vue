@@ -74,10 +74,12 @@ export default {
 <style lang="less" scoped>
   .article {
     display: flex;
+    max-width: 1200px;
+    min-width: 970px;
     align-items: center;
     flex-direction: column;
     margin: 2rem 0;
-    padding: 2rem;
+    padding: 10rem;
     border-radius: .5rem;
     color: #bbb;
     background-color: #FFF;
