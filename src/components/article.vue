@@ -1,11 +1,13 @@
 <template>
   <article class="article">
+    <div class="article-date">
+      {{ article.createAt }}
+    </div>
     <header class="article-header">
       <h1 class="article-title">
         <router-link :to="{ path: article.routePath }">{{ article.name }}</router-link>
       </h1>
       <div class="article-info">
-        <span class="createAt">创建于 {{ article.createAt }}</span>
         <!--span class="updateAt">{{ article.updateAt }}</span-->
         <span class="tag">标签: {{ article.keywords }}</span>
       </div>
@@ -73,16 +75,30 @@ export default {
 
 <style lang="less" scoped>
   .article {
+    position: relative;
     display: flex;
     max-width: 1200px;
     min-width: 970px;
     align-items: center;
     flex-direction: column;
     margin: 2rem 0;
-    padding: 10rem;
+    padding: 5rem 10rem;
     border-radius: .5rem;
     color: #bbb;
     background-color: #FFF;
+    .article-date {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: black;
+      background-color: lightsalmon;
+      width: 80px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      border-radius: 0 0 0 30px;
+      font-size: 14px;
+    }
     .article-header {
       .article-title {
         text-align: center;
@@ -98,6 +114,7 @@ export default {
       .article-info {
         font-size: 1.2rem;
         color: #555;
+        text-align: center;
       }
     }
     .article-body {
@@ -113,7 +130,7 @@ export default {
         padding: .5rem 1.5rem;
         color: #FFF;
         font-size: 1.3rem;
-        background-color: #97dffd;
+        background-color: #97affd;
         text-decoration: none;
         &:hover {
           background-color: rgba(0, 149, 255, 0.2);
