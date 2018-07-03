@@ -5,7 +5,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const baseWebpackConfig = require('./webpack.base.conf')
 
 module.exports = merge(baseWebpackConfig, {
+  mode: 'development',
   devServer: {
+    clientLogLevel: 'warning',
     contentBase: 'dist',
     hot: true,
     compress: true,

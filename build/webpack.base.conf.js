@@ -1,23 +1,18 @@
 const path = require('path')
 const webpack = require('webpack')
 const MarkdownPlugin = require('../markdown-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
 
 module.exports = {
   entry: {
     index: './src/index.js'
   },
-  plugins: [
-    new ExtractTextPlugin('css/[name].[contentHash:8].css'),
-    new MarkdownPlugin({
-      root: path.resolve(__dirname, '../dist'),
-      source: './markdown',
-      output: './article/', // 该路径相对于output.path
-      path: './article/' // 前端调用时的路径
-    }),
-    new CopyWebpackPlugin([{ from: './markdown/img', to: './img' }])
-  ],
   output: {
     filename: 'js/[name].[hash:8].js',
     path: path.resolve(__dirname, '../dist')
@@ -28,57 +23,78 @@ module.exports = {
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
+  plugins: [
+    new VueLoaderPlugin(),
+    new MarkdownPlugin({
+      root: path.resolve(__dirname, '../dist'),
+      source: './markdown',
+      output: './article/', // 该路径相对于output.path
+      path: './article/' // 前端调用时的路径
+    }),
+    new CopyWebpackPlugin([{ from: './markdown/img', to: './img' }])
+  ],
   module: {
     rules: [
       {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          loaders: {
-            less: ExtractTextPlugin.extract({ // 参照vue-loader官网的配置
-              use: ['css-loader', 'less-loader'],
-              fallback: 'vue-style-loader',
-              publicPath: '/' // 解决样式里引入的资源的路径问题
-            })
-          }
+          loaders: ['css-loader', 'postcss-loader']
         }
+      },
+      {
+        test: /\.less$/,
+        use: [
+          process.env.NODE_ENV !== 'production' ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'less-loader'
+        ]
+      },
+      {
+        test: /\.(css)$/,
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: {
-          loader: 'babel-loader'
-        }
+        loader: 'babel-loader',
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
-        test: /\.(less|css)$/,
-        use: ExtractTextPlugin.extract({ // 外部引入的样式需要单独配置
-          use: ['css-loader', 'less-loader'],
-          fallback: 'style-loader'
-        })
-      },
-      {
-        test: /\.(png|svg|jpg|gif)$/, //image的加载
-        loader: 'file-loader',
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
         options: {
+          limit: 10000,
           name: 'img/[name].[hash:7].[ext]'
         }
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/, //font的加载
-        use: [
-          'file-loader'
-        ]
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'media/[name].[hash:7].[ext]'
+        }
       },
       {
-        test: /\.md$/,
-        use: [
-          {
-            loader: path.resolve(__dirname, 'utils/markdown-loader'),
-            options: {}
-          }
-        ]
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'fonts/[name].[hash:7].[ext]'
+        }
       }
     ]
+  },
+  node: {
+    // prevent webpack from injecting useless setImmediate polyfill because Vue
+    // source contains it (although only uses it if it's native).
+    setImmediate: false,
+    // prevent webpack from injecting mocks to Node native modules
+    // that does not make sense for the client
+    dgram: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty'
   }
 }

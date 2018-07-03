@@ -87,7 +87,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .article-list {
   display: flex;
   flex-direction: column;
