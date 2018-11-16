@@ -16,7 +16,7 @@
       <!--简介-->
       <div v-if="!article.content" v-html="article.brief" class="content"></div>
       <!--全文-->
-      <div v-else v-html="article.content" class="content"></div>
+      <div v-else v-html="article.content" class="content code"></div>
     </div>
     <footer class="article-footer">
       <router-link v-if="article.routePath" :to="{ path: article.routePath }">阅读全文 »</router-link>
@@ -77,15 +77,15 @@ export default {
   .article {
     position: relative;
     display: flex;
-    max-width: 1200px;
-    min-width: 970px;
     align-items: center;
+    align-self: stretch;
     flex-direction: column;
     margin: 2rem 0;
     padding: 5rem 10rem;
     border-radius: .5rem;
+    box-shadow: 2px 2px 15px #e2e4e9;
     color: #bbb;
-    background-color: #FFF;
+    background-color: #a0a0a0;
     .article-date {
       position: absolute;
       top: 0;
@@ -98,6 +98,7 @@ export default {
       text-align: center;
       border-radius: 0 0 0 30px;
       font-size: 14px;
+      box-shadow: 2px 2px #999;
     }
     .article-header {
       .article-title {
