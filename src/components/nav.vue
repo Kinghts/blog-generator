@@ -9,25 +9,8 @@
 export default {
   data () {
     return {
-      navClass: 'nav-show',
-      scrollListener: null
+      navClass: 'nav-show'
     }
-  },
-  mounted () {
-    this.$data.scrollListener = this.generateScrollListener()
-    window.addEventListener('scroll', this.$data.scrollListener)
-  },
-  methods: {
-    generateScrollListener () {
-      let lastScrollY = 0, _m = this
-      return function hideOnScroll(e) {
-        _m.$data.navClass = lastScrollY >= window.scrollY ? 'nav-show' : 'nav-hide'
-        lastScrollY = window.scrollY
-      }
-    }
-  },
-  beforeDestory () {
-    window.removeEventListener('scroll', this.$data.scrollListener)
   }
 }
 </script>

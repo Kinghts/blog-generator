@@ -56,7 +56,17 @@ export default {
           }
           articles.push(article)
         }
-        articles.sort((a, b) => { return new Date(a.createAt) < new Date(b.createAt) })
+        articles.sort((a, b) => {
+          let _a = new Date(a.createAt)
+          let _b = new Date(b.createAt)
+          if (_a < _b) {
+            return 1
+          } else if (_a > _b) {
+            return -1
+          }
+          return 0
+        })
+        console.log(articles)
         this.$data.articles = articles
         this.$data.showedArticles.push(...this.getPageArticles(this.$data.currentPage, this.$data.articlePerPage, articles))
       })
